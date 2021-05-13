@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>北落紫霄 • Posts by &#34;树莓派&#34; tag</title>
+        <link>https://fuhouyu.com</link>
+        <description>北落紫霄</description>
+        <language>zh-CN</language>
+        <pubDate>Sat, 28 Nov 2020 21:45:26 +0800</pubDate>
+        <lastBuildDate>Sat, 28 Nov 2020 21:45:26 +0800</lastBuildDate>
+        <category>Java学习笔记</category>
+        <category>树莓派</category>
+        <item>
+            <guid isPermalink="true">https://fuhouyu.com/2020/11/28/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85Minio/</guid>
+            <title>树莓派安装Minio</title>
+            <link>https://fuhouyu.com/2020/11/28/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85Minio/</link>
+            <category>树莓派</category>
+            <pubDate>Sat, 28 Nov 2020 21:45:26 +0800</pubDate>
+            <description><![CDATA[ &lt;h4 id=&#34;简介&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#简介&#34;&gt;#&lt;/a&gt; 简介&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Minio&lt;/strong&gt; 是一个基于 Apache License v2.0 开源协议的对象存储服务。它兼容亚马逊 S3 云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器 / 虚拟机镜像等，而一个对象文件可以是任意大小，从几 kb 到最大 5T 不等。&lt;/p&gt;
+&lt;p&gt;MinIO 是一个非常轻量的服务，可以很简单的和其他应用的结合，类似 NodeJS, Redis 或者 MySQL。&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9kb2NzLm1pbi5pby9jbi8=&#34;&gt;Minio 官方文档&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9naXRodWIuY29tL21pbmlvL21pbmlv&#34;&gt;Minio-GitHub 地址&lt;/span&gt;&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+&lt;h4 id=&#34;go语言安装&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#go语言安装&#34;&gt;#&lt;/a&gt; Go 语言安装&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;Minio的安装方式有多种，这里使用GO语言对Minio进行安装&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;安装 go 语言：&lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9nb2xhbmcuZ29vZ2xlLmNuL2RsLw==&#34;&gt;Go 语言社区&lt;/span&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# 下载源码
+wget https://golang.google.cn/dl/go1.15.5.linux-arm64.tar.gz
+# 解压并拷贝到/usr/local下
+tar -C /usr/local -zxf go1.15.5.linux-arm64.tar.gz\
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改环境变量&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;vim /etc/profile
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;增加 Go 的环境变量&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;export PATH=$PATH:/usr/local/go/bin
+# 刷新变量
+source /etc/profile
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输入 &lt;code&gt;go version&lt;/code&gt;  验证&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;http://img.fuhouyu.com/2020-11-28-134325.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;设置代理，否则一些 GO 的模块只能科学下载了&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;go env -w GOPROXY=https://goproxy.cn,direct
+export GOPROXY=https://goproxy.io/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;安装minio&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#安装minio&#34;&gt;#&lt;/a&gt; 安装 Minio&lt;/h4&gt;
+&lt;p&gt;&lt;img data-src=&#34;http://img.fuhouyu.com/2020-11-28-134633.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;输入如下代码进行安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;GO111MODULE=on go get github.com/minio/minio
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;等待下载完成，视对应的网络环境而定&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;http://img.fuhouyu.com/2020-11-28-135515.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;进入文件夹查看 &lt;code&gt;cd /usr/local/go/bin&lt;/code&gt;  是否存在&lt;strong&gt; minio&lt;/strong&gt; 的命令，如果不存在可使用全局查找， &lt;code&gt;find /* -name minio&lt;/code&gt;  再将命令移动到当 go 的 bin 目录下&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;http://img.fuhouyu.com/2020-11-28-135834.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;运行 minio&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# /data 是文件上传的路径，可以设置为其他的地址
+minio server /data
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img data-src=&#34;http://img.fuhouyu.com/2020-11-28-142850.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这上面显示的就是外部可以进行访问的地址，默认的账号密码为： &lt;code&gt;minioadmin&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;http://img.fuhouyu.com/2020-11-28-143113.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;使用自定义的账号密码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;export MINIO_ACCESS_KEY=admin
+export MINIO_SECRET_KEY=password
+minio server /data
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;添加minio的自启动&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#添加minio的自启动&#34;&gt;#&lt;/a&gt; 添加 Minio 的自启动&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# 打开/etc/rc.local目录
+vim /etc/rc.local
+# 添加以下代码
+export MINIO_ACCESS_KEY=帐号
+export MINIO_SECRET_KEY=密码
+nohup ./usr/local/go/bin/minio server /data &amp;gt; /ddhome/minio.log 2&amp;gt;&amp;amp;1 &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如图:&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;http://img.fuhouyu.com/2020-11-28-145400.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这时候 &lt;code&gt;reboot&lt;/code&gt;  重启，就可以进行自启动了，如果不能执行自启动的操作，查看 rc.local 是否有可执行权限。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# 添加权限
+chmod +x /etc/rc.local	
+&lt;/code&gt;&lt;/pre&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://fuhouyu.com/2020/11/08/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%AE%80%E6%98%93%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</guid>
+            <title>树莓派简易安装教程</title>
+            <link>https://fuhouyu.com/2020/11/08/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%AE%80%E6%98%93%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</link>
+            <category>树莓派</category>
+            <pubDate>Sun, 08 Nov 2020 10:19:04 +0800</pubDate>
+            <description><![CDATA[ &lt;p&gt;基于树莓派 4 的系统安装简单教程&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+&lt;h4 id=&#34;烧录镜像&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#烧录镜像&#34;&gt;#&lt;/a&gt; 烧录镜像&lt;/h4&gt;
+&lt;h5 id=&#34;使用sd-card-formatter对sd卡进行格式化的操作&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#使用sd-card-formatter对sd卡进行格式化的操作&#34;&gt;#&lt;/a&gt; 使用 SD Card Formatter 对 sd 卡进行格式化的操作&lt;/h5&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhjv3bf1zj30n20msdkd.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h5 id=&#34;直接点击format跳出对应的选项输入密码后显示如下图即是成功&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#直接点击format跳出对应的选项输入密码后显示如下图即是成功&#34;&gt;#&lt;/a&gt; 直接点击 Format，跳出对应的选项，输入密码后，显示如下图，即是成功&lt;/h5&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhk7wf4vbj30ne0mkdrq.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;将下载后的系统文件进行解压，得到对应的.img 镜像文件&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhka8eioij31gm0sun1k.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;打开 Raspberry Pi Imager 的官方镜像写入工具，进行镜像的写入&lt;/p&gt;
+&lt;p&gt;选项拉至最后，选择本机上的镜像&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhkbiroelj311g0o6q91.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;选择对应的 sd 卡，点击 write 写入即可&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhkcmq3c3j311e0o0juz.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhkddar7kj311i0o8n11.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;接下来就是漫长的等待了……&lt;/p&gt;
+&lt;p&gt;安装完成后如下图&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhmfh2dzej311g0oeaeo.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;配置&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#配置&#34;&gt;#&lt;/a&gt; 配置&lt;/h4&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhmh56cksj31400u0hdx.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;开启 root 用户及 ssh&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;打开终端，可以看到默认的登录用户是pi，增加root用户&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 设置 root 用户的密码，输入两次新的密码即可&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;passwd&lt;/span&gt; root&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 使用 root 权限，修改 ssh 时，使用 root 权限登录，如下图&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;su&lt;/span&gt; root&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 修改文件 &lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;nano&lt;/span&gt; /etc/ssh/sshd_config&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 查找 PermitRootLogin 去掉注释，将值改为 yes，如下图&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# Ctrl + o 回车进行保存，再输入 Ctrl + x 退出即可&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhmwtsp0yj31nc0sakjl.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;启用ssh登录，可以在安装系统时，新建一个SSH空文件放入sd卡的根目录，这样系统启动时，就可以自动读取。&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;也可以在桌面上直接操作，如下所示：&lt;/code&gt;&lt;/p&gt;
+&lt;h6 id=&#34;修改软件源安装对应的软件&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#修改软件源安装对应的软件&#34;&gt;#&lt;/a&gt; 修改软件源，安装对应的软件&lt;/h6&gt;
+&lt;p&gt;&lt;code&gt;由于对应的源是在国外，连接慢，修改源，进行软件的更新及安装&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 备份源文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;cp&lt;/span&gt; /etc/apt/sources.list /etc/apt/sources.list.bak&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;cp&lt;/span&gt; /etc/apt/sources.list.d/raspi.list /etc/apt/sources.list.d/raspi.list.bak&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 修改源文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;nano&lt;/span&gt; /etc/apt/sources.list&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 将这两个源文件添加入文件中，注释官方源，Ctrl + o 回车进行保存，再输入 Ctrl + x 退出&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 修改另一处的文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;nano&lt;/span&gt; /etc/apt/sources.list.d/raspi.list&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;12&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;13&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;14&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;deb-src http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;15&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;16&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 进行软件的更新，注意：如果该步骤有误，说明上述源不适合该系统，需要重新找源&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;17&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;apt-get&lt;/span&gt; update &lt;span class=&#34;token operator&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;apt-get&lt;/span&gt; upgrade&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;18&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 清理无用的软件包&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;19&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;apt&lt;/span&gt; autoremove&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;20&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;21&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 安装 vim&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;22&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;apt-get&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;vim&lt;/span&gt; &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;23&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 安装 chkconfig，可以设置开机自启的服务&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;24&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;apt-get&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;chkconfig&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;code&gt;树莓派无法使用ll（即ls -l的别名）命令，这是因为该代码被注释的问题，修改如下：&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 编辑～/.bashrc 文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;vim&lt;/span&gt; ~/.bashrc&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 去掉对应注释保存即可，刷新文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token builtin class-name&#34;&gt;source&lt;/span&gt; ~/.bashrc&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhnbf4ejuj31nc0sakjl.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h6 id=&#34;开启vnc功能&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#开启vnc功能&#34;&gt;#&lt;/a&gt; 开启 vnc 功能&lt;/h6&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 配置树莓派文件 &lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; raspi-config&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;code&gt;选择Interface Options&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhnezlhacj31n00ry10v.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;选择VNC&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhnfz98gmj31l80jmn0a.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;确认后如下图，即开启成功：&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;![image-20201108122543166](/Users/fuhouyu/Library/Application Support/typora-user-images/image-20201108122543166.png)&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;确定回到主页面，Finish退出&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 启动 vnc 服务&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;vncserver&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;code&gt;使用VNC软件连接，输入ip和用户名和密码，即可进入桌面&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhnkcsye0j30vo0o4akg.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhnm6czjaj315a0u0e85.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果在进入桌面时出现错误提示，可能是分辨率导致，需要修改分辨率：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;选择Display Options&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhnpkfb24j31l20jawhb.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;选择Resolution&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;![image-20201108123455678](/Users/fuhouyu/Library/Application Support/typora-user-images/image-20201108123455678.png)&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;修改分辨率后，再做尝试&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhnqp4kqkj31hu0nen0o.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h6 id=&#34;内网映射需要一个公网的ip可以在各大服务器商处购买没有则无法穿透&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#内网映射需要一个公网的ip可以在各大服务器商处购买没有则无法穿透&#34;&gt;#&lt;/a&gt; 内网映射（需要一个公网的 ip，可以在各大服务器商处购买，没有则无法穿透）&lt;/h6&gt;
+&lt;p&gt;这里使用的 nps 进行映射：&lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9naXRodWIuY29tL2VoYW5nLWlvL25wcy9yZWxlYXNlcw==&#34;&gt;nps 下载&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;服务端：下载到公网服务器&lt;/p&gt;
+&lt;p&gt;客户端：下载到树莓派&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 查看系统构架构，下载对应的版本，如果是 armhf，可以下载 linux_arm_v7 版本&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# centos&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;uname&lt;/span&gt; -a&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# ubuntu&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;dpkg --print-architecture&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;code&gt;服务端配置（公网）：以x86为例&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 创建文件夹&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;mkdir&lt;/span&gt; -p /ddhome/nps-server&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token builtin class-name&#34;&gt;cd&lt;/span&gt; /ddhome/nps-server/&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 下载文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;wget&lt;/span&gt; https://github.com/ehang-io/nps/releases/download/v0.26.9/linux_386_server.tar.gz&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 解压&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;tar&lt;/span&gt; -zxvf linux_386_server.tar.gz&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 访问端口默认为 8080，修改：vim conf/nps.conf, 修改值 web_port 即可，也可修改对应的用户名和密码&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 安装服务端&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; nps &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 启动服务&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;12&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; nps start&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;code&gt;安装成功后即可访问，如果无法访问，linux下，查看/var/log/nps.log 对应的日志&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhq12jwj0j31n00u048b.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;新增一个客户端，默认配置即可&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhq0lzasjj31l50u046j.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;获取到对应的命令，在树莓派中输入：&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhq290ptrj32c00hq0x6.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;客户端配置：以arm_v7为例&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 创建文件夹&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;mkdir&lt;/span&gt; -p /ddhome/nps-client&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token builtin class-name&#34;&gt;cd&lt;/span&gt; /ddhome/nps-client/&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 下载文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;wget&lt;/span&gt; https://github.com/ehang-io/nps/releases/download/v0.26.9/linux_arm_v7_client.tar.gz&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 解压&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;tar&lt;/span&gt; -zxvf linux_arm_v7_client.tar.gz&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 安装服务，使用上面服务端 web 页面得到的命令，进行安装，并注册到系统服务中&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# 直接复制上面命令也可，但是不会开机自启&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; ./npc &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; -server&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt;ip:端口 -vkey&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt;密钥 -type&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt;tcp&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;npc start&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;code&gt;创建TCP通道，将22端口映射到服务端口的8086，方便进行ssh连接&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhqm17g9xj31xs0u07az.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhqmubfvjj32r80msdkj.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在 iterm 中使用命令： &lt;code&gt;ssh root@ip -p 映射的端口&lt;/code&gt; ，就可以连接到树莓派的服务器&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;增加vnc的端口，默认为5900，添加映射&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img data-src=&#34;https://tva1.sinaimg.cn/large/0081Kckwly1gkhr1290dqj32c606c75d.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在 vnc 中进行测试，如果成功，则说明映射成功&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>
