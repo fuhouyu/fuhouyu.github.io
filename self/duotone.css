@@ -1,32 +1,12 @@
 
-/* 新添加的内容
-  ------------------------------------- 
-  --hl-color                  代码框字体顔色 【必须】 (把下面 pre[class*="language-"]的 color 复制到这里来)
-  --hl-bg                     代码框背景色 【必须】 (把下面 pre[class*="language-"]的 background复制到这里来)
-  --hltools-bg: #321a0f       代码框顶部工具栏背景色 【可选】(如果你关掉了 copy、lang 和 shrink,可不用配置这个）
-  --hltools-color: #fff       代码框顶部工具栏字体顔色 【可选】(如果你关掉了 copy、lang 和 shrink,可不用配置这个）
-  --hlnumber-bg: #221a0f      代码框行数背景色 【可选】(如果已经关掉 line_number,可以不用配置这个)
-  --hlnumber-color: #fff      代码框行数字体顔色 【可选】 (如果已经关掉 line_number,可以不用配置这个)
-  --hlscrollbar-bg: #d3af86   代码框滚动条顔色 【可选】（默认为主题主顔色）
-  --hlexpand-bg: #d3af86      代码框底部展开背景色 【可选】(如果已经关掉 highlight_height_limit,可以不用配置这个)
+/*
+Name:   Duotone Light
+Author: Simurai, adapted from DuoTone themes for Atom (http://simurai.com/projects/2016/01/01/duotone-themes)
+
+Conversion: Bram de Haan (http://atelierbram.github.io/Base2Tone-prism/output/prism/prism-base2tone-morning-light.css)
+Generated with Base16 Builder (https://github.com/base16-builder/base16-builder)
 */
 
-:root {
-  --hl-color: #728fcb;
-  --hl-bg: #faf8f5;
-  --hltools-bg: xxxxxxx;
-  --hltools-color: xxxxxxx;
-  --hlnumber-bg: xxxxxxx;
-  --hlnumber-color: xxxxxxxx;
-  --hlscrollbar-bg: xxxxx;
-  --hlexpand-bg: xxxxxxx
-}
-
-
-/* ------------------------------------- */
-
-/* 这些可以删除（可留着，如果有冲突，请删除） */
-/* ------------------------------------- */
 code[class*="language-"],
 pre[class*="language-"] {
 	font-family: Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace;
@@ -36,7 +16,7 @@ pre[class*="language-"] {
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
-	word-break: normal;
+	word-break: norma[Il;
 
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
@@ -78,8 +58,6 @@ pre[class*="language-"] {
 	padding: .1em;
 	border-radius: .3em;
 }
-/* ------------------------------------- */
-/* 到这里为止，可以删除 */
 
 .token.comment,
 .token.prolog,
