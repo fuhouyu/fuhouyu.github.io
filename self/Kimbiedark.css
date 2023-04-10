@@ -1,3 +1,4 @@
+
 /*
     Name:     Kimbie (dark)
     Author:   Jan T. Sott
@@ -5,16 +6,16 @@
     URL:      https://github.com/idleberg/Kimbie-highlight.js
 */
 
-/* 新添加的内容
+/* 新添加的內容
   ------------------------------------- 
-  --hl-color                  代码框字体顔色 【必须】 (把下面.hljs的 color复制到这里来)
-  --hl-bg                     代码框背景色 【必须】 (把下面.hljs的 background复制到这里来)
-  --hltools-bg: #321a0f       代码框顶部工具栏背景色 【可选】(如果你关掉了 copy、lang 和 shrink,可不用配置这个）
-  --hltools-color: #fff       代码框顶部工具栏字体顔色 【可选】(如果你关掉了 copy、lang 和 shrink,可不用配置这个）
-  --hlnumber-bg: #221a0f      代码框行数背景色 【可选】(如果已经关掉 line_number,可以不用配置这个)
-  --hlnumber-color: #fff      代码框行数字体顔色 【可选】 (如果已经关掉 line_number,可以不用配置这个)
-  --hlscrollbar-bg: #d3af86   代码框滚动条顔色 【可选】（默认为主题主顔色）
-  --hlexpand-bg: #d3af86      代码框底部展开背景色 【可选】(如果已经关掉 highlight_height_limit,可以不用配置这个)
+  --hl-color                  代碼框字體顔色 【必須】 (把下面.hljs的 color複製到這裏來)
+  --hl-bg                     代碼框背景色 【必須】 (把下面.hljs的 background複製到這裏來)
+  --hltools-bg: #321a0f       代碼框頂部工具欄背景色 【可選】(如果你關掉了 copy、lang 和 shrink,可不用配置這個）
+  --hltools-color: #fff       代碼框頂部工具欄字體顔色 【可選】(如果你關掉了 copy、lang 和 shrink,可不用配置這個）
+  --hlnumber-bg: #221a0f      代碼框行數背景色 【可選】(如果已經關掉 line_number,可以不用配置這個)
+  --hlnumber-color: #fff      代碼框行數字體顔色 【可選】 (如果已經關掉 line_number,可以不用配置這個)
+  --hlscrollbar-bg: #d3af86   代碼框滾動條顔色 【可選】（默認為主題主顔色）
+  --hlexpand-bg: #d3af86      代碼框底部展開背景色 【可選】(如果已經關掉 highlight_height_limit,可以不用配置這個)
 */
 
 :root {
@@ -80,7 +81,7 @@
   color: #98676a;
 }
 
-/* 更改的内容 把.hljs改为 #article-container figure.highlight .hljs *、
+/* 更改的內容 把.hljs改為 #article-container figure.highlight .hljs *、
 /* ------------------------------------- */
 #article-container figure.highlight .hljs {
   display: block;
